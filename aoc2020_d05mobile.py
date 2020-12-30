@@ -8,14 +8,9 @@ def main():
     dataFile.close()
     print(f"Read {len(boardingPasses)} boarding passes")
     
-    
-    
     solutionPart1()
     solutionPart2()
     
-                
-        
-
 
 def solutionPart1():
     global boardingPasses, seats
@@ -28,8 +23,7 @@ def solutionPart1():
             seats[row] = {}
         seats[row][column] = {"code": boardingPass, "id": bpid}
         maxBpid = max(maxBpid, bpid)
-    
-    
+        
     print(f'Solution part1: highest boarding pass ID: {maxBpid}')
     
 
@@ -78,11 +72,12 @@ def calcColumn(code, low, high):
             return high
     return low
 
+
 def calcBPCode(row, column):
     bpcode = str(bin(int(row))[2:]).replace("1", "B").replace("0", "F").rjust(7, "F")
     bpcode += str(bin(int(column))[2:]).replace("1", "R").replace("0", "L").rjust(3, "L")
     
-    
+
     return bpcode
 
 if __name__ == '__main__':
