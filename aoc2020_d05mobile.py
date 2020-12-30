@@ -77,10 +77,9 @@ def calcBPCode(row, column):
     bpcode = str(bin(int(row))[2:]).replace("1", "B").replace("0", "F").rjust(7, "F")
     bpcode += str(bin(int(column))[2:]).replace("1", "R").replace("0", "L").rjust(3, "L")
     
-
     return bpcode
+
 
 if __name__ == '__main__':
     main()
-
 
