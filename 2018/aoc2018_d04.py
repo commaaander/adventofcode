@@ -26,10 +26,13 @@ def solution1(data):
             event,
         )
         try:
-            guard_id = int(match.group(1))
+            guard_id = match.group(1).zfill(5)
             falls_asleep = None
         except AttributeError:
             pass
+
+        if guard_id not in guard_sleep_times:
+            guard_sleep_times[guard_id] = {}
 
         match = re.search(
             "^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:([0-9]{2})\] falls asleep$", event
@@ -56,12 +59,14 @@ def solution1(data):
         if falls_asleep is not None and wakes_up is not None:
             for minute in range(falls_asleep, wakes_up):
                 try:
-                    guard_sleep_times[f"{guard_id:05d}-{minute}"] += 1
+                    guard_sleep_times[guard_id][f"{minute:02d}"] += 1
                 except KeyError:
-                    guard_sleep_times[f"{guard_id:05d}-{minute}"] = 1
+                    guard_sleep_times[guard_id][f"{minute:02d}"] = 1
 
-    print(max(guard_sleep_times, key=guard_sleep_times.get))
-    return 0
+    most_sleeping_guard_id = max(guard_sleep_times, key=lambda k: sum(guard_sleep_times[k].values()))
+    most_sleeping_guard_minute = max(guard_sleep_times[most_sleeping_guard_id], key= lambda x: guard_sleep_times[most_sleeping_guard_id][x])
+
+    return int(most_sleeping_guard_id.lstrip("0"))*int(most_sleeping_guard_minute.lstrip("0"))
 
 
 def solution2(data):
