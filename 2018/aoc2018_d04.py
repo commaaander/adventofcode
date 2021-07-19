@@ -12,7 +12,41 @@ def main():
 
 
 def solution1(data):
+    guard_sleep_times = get_guard_sleep_times(data)
+    most_sleeping_guard_id = max(
+        guard_sleep_times, key=lambda k: sum(guard_sleep_times[k].values())
+    )
+    most_sleeping_guard_minute = max(
+        guard_sleep_times[most_sleeping_guard_id],
+        key=lambda x: guard_sleep_times[most_sleeping_guard_id][x],
+    )
 
+    print(f"Guard ID: {most_sleeping_guard_id}, {most_sleeping_guard_minute} minutes")
+    return int(most_sleeping_guard_id.lstrip("0")) * int(
+        most_sleeping_guard_minute.lstrip("0")
+    )
+
+
+def solution2(data):
+    guard_sleep_times = get_guard_sleep_times(data)
+    most_sleeping_guard_id = max(
+        guard_sleep_times,
+        key=lambda k: max(
+            guard_sleep_times[k].values() if len(guard_sleep_times[k]) > 0 else [0]
+        ),
+    )
+    most_sleeping_guard_minute = max(
+        guard_sleep_times[most_sleeping_guard_id],
+        key=lambda k: guard_sleep_times[most_sleeping_guard_id][k],
+    )
+
+    print(f"Guard ID: {most_sleeping_guard_id}, in minute {most_sleeping_guard_minute}")
+    return int(most_sleeping_guard_id.lstrip("0")) * int(
+        most_sleeping_guard_minute.lstrip("0")
+    )
+
+
+def get_guard_sleep_times(data):
     guard_id = None
     falls_asleep = None
     wakes_up = None
@@ -63,14 +97,7 @@ def solution1(data):
                 except KeyError:
                     guard_sleep_times[guard_id][f"{minute:02d}"] = 1
 
-    most_sleeping_guard_id = max(guard_sleep_times, key=lambda k: sum(guard_sleep_times[k].values()))
-    most_sleeping_guard_minute = max(guard_sleep_times[most_sleeping_guard_id], key= lambda x: guard_sleep_times[most_sleeping_guard_id][x])
-
-    return int(most_sleeping_guard_id.lstrip("0"))*int(most_sleeping_guard_minute.lstrip("0"))
-
-
-def solution2(data):
-    return 0
+    return guard_sleep_times
 
 
 def load_data(filename):
