@@ -1,5 +1,5 @@
 import re
-
+import pathlib
 
 def main():
     data = load_data("d03.data")
@@ -14,7 +14,7 @@ def main():
 def solution1(data):
     fabric = {}
 
-    for claim in data[:10]:
+    for claim in data:
 
         # print(claim)
 
@@ -26,18 +26,21 @@ def solution1(data):
                 try:
                     fabric[f"{int(claim_x_pos)+x:04d}-{int(claim_y_pos)+y:04d}"] += 1
                 except KeyError as ke:
-                    fabric[f"{int(claim_x_pos)+x:04d}-{int(claim_y_pos)+y:04d}"] = 0
+                    fabric[f"{int(claim_x_pos)+x:04d}-{int(claim_y_pos)+y:04d}"] = 1
 
-    multi_claims_count = len()
-    print(fabric)
+    # print(fabric)
+    print(f"{len(fabric)} entries in fabric")
 
+    return sum(1 for i in fabric.values() if i >= 2)
+    
 
 def solution2(data):
     pass
 
 
 def load_data(filename):
-    with open(f"data/{filename}") as inputFile:
+
+    with open(f"{pathlib.Path(__file__).parent.absolute()}/data/{filename}") as inputFile:
         return inputFile.read().split("\n")
 
 
