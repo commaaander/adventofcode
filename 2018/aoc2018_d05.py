@@ -1,10 +1,11 @@
 import pathlib
-
+import sys
 
 def main():
+    sys.setrecursionlimit(10000)
+
     data = load_data("d05.data")
     print(f"data length: {len(data)}")
-
 
     print(f"solution part one: {solution1(data)}")
     print(f"solution part two: {solution2(data)}")
@@ -16,7 +17,14 @@ def solution1(data):
 
 
 def solution2(data):
-    return 0
+
+    results = {}
+    for unit in "abcdefghijklmnopqrstuvwxyz":
+        polymere = data[0].replace(unit, "").replace(unit.upper(), "")
+        results[unit] = len(reactions(1, polymere))
+        # print(f"Unit: {unit}, result: {results[unit]} ")
+
+    return min(results.values())
 
 
 def reactions(round, polymere):
@@ -29,9 +37,9 @@ def reactions(round, polymere):
     for unit in units:
         polymere = polymere.replace(unit, "")
 
-    print(
-        f"Round {round}: {int((polymere_length - len(polymere))/2):d} reactions, {len(polymere)} units left"
-    )
+    # print(
+    #     f"Round {round}: {int((polymere_length - len(polymere))/2):d} reactions, {len(polymere)} units left"
+    # )
 
     if len(polymere) < polymere_length:
         polymere = reactions(round + 1, polymere)
