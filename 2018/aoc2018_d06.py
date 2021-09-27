@@ -2,7 +2,7 @@ import pathlib
 
 
 def main():
-    raw_data = load_data("d06.data")
+    raw_data = load_data("d06_test.data")
     print(f"data length: {len(raw_data)}")
 
     list_data = list({"x": int(x[0]), "y": int(x[1])}
@@ -17,17 +17,28 @@ def solution1(data):
 
     print(data)
     # find boundaries
-    # lower boundary: min(x)
-    # upper boundary: max(x)
-    # left boundary: min(y)
-    # right boundary: max(x)
+    borders = {
+        "bottom": min(point["x"] for point in data),
+        "top": max(point["x"] for point in data),
+        "left": min(point["y"] for point in data),
+        "right": max(point["y"] for point in data)
+    }
 
-    # filter out all points with infinite area
+    i = 1
+    for x in range(borders["bottom"], borders["top"]+1):
+        for y in range(borders["left"], borders["right"]+1):
+            for point in data:
+                print(
+                    f"Point Nr. {i:07d}({x:03d}-{y:03d}) -> {point['x']:03d}-{point['y']:03d}: {getManhattanDistance({'x':x, 'y':y}, point)}", end="\n")
+            i += 1
 
-    # calculate the area around all points
 
     # determine the largest area
     pass
+
+
+def getManhattanDistance(point1, point2):
+    return abs(point1["x"] - point2["x"]) + abs(point1["y"] - point2["y"])
 
 
 def load_data(filename):
