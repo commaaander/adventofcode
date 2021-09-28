@@ -1,7 +1,7 @@
 import pathlib
 import math
 
-debug = True
+debug = False
 
 
 def main():
@@ -33,22 +33,23 @@ def solution1(data):
     }
 
     print(f"borders: {borders}")
-
+    print("Calculate Map")
+    map = []
     i = 1
     j = 0
     for x in range(borders["bottom"], borders["top"]+1):
         for y in range(borders["left"], borders["right"]+1):
+            map_entry = {"x": x, "y": y, "md": {}}
             for point in data:
-                if debug:
-                    print(
-                        f"{i:03d} ({x:03d}-{y:03d}) -> "
-                        f"{point['name']:>2s} ({point['x']:03d}-{point['y']:03d}): "
-                        f"{get_manhattan_distance({'x':x, 'y':y}, point)}", end="\n"
-                    )
-                pass
+                try:
+                    map_entry["md"][f"{get_manhattan_distance({'x': x, 'y': y}, point):04d}"].append(point['name'])
+                except:
+                    map_entry["md"][f"{get_manhattan_distance({'x': x, 'y': y}, point):04d}"] = []
+                    map_entry["md"][f"{get_manhattan_distance({'x': x, 'y': y}, point):04d}"].append(point['name'])
                 j += 1
+            map.append(map_entry)
             i += 1
-    print(f"{j} rounds.")
+    print(f"After {j} rounds: {map}")
     # determine the largest area
     pass
     print(data)
