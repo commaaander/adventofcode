@@ -1,5 +1,4 @@
 import pathlib
-import math
 
 debug = False
 
