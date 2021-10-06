@@ -13,3 +13,8 @@ def load_data(file_name: str, split_sep: str = None):
             ret_val = ret_val.split(split_sep)
 
     return ret_val
+
+
+def dprint(debug: bool = True, message: str = ""):
+    if debug:
+        print(message)
