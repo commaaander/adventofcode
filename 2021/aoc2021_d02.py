@@ -1,8 +1,6 @@
 import argparse
 import re
-import sys
 from os.path import basename
-from itertools import pairwise, tee
 from aoc2021_tools import load_data
 
 """ https://adventofcode.com/2021/day/2 """
@@ -25,26 +23,27 @@ def main():
     data_file_name = f"{day}{'_test' if cmdl_args.debug else ''}.data"
     raw_data = load_data(data_file_name, split_sep="\n")
 
-    question = "What do you get if you multiply your final horizontal position by your final depth?"
-    print(
-        f"""Solution part one:
-            {question}: {solution1(raw_data=raw_data)}
-        """
+    question = (
+        "What do you get if you multiply your final horizontal position by your "
+        "final depth?"
     )
-    question = "What do you get if you multiply your final horizontal position by your final depth?"
-    print(
-        f"""Solution part two:
-            {question}: {solution2(raw_data=raw_data)}
-        """
+    print(f"Solution part one:\n\t{question}: {solution1(raw_data=raw_data)}")
+
+    question = (
+        "What do you get if you multiply your final horizontal position by your "
+        "final depth?"
     )
+    print(f"Solution part one:\n\t{question}: {solution1(raw_data=raw_data)}")
     print()
 
 
 def solution1(**kwargs) -> int:
-    course_data = [l.split(" ") for l in kwargs["raw_data"]]
-    final_horizontal_pos = sum(int(l[1]) for l in course_data if l[0] == "forward")
-    final_depth = sum(int(l[1]) for l in course_data if l[0] == "down") - sum(
-        int(l[1]) for l in course_data if l[0] == "up"
+    course_data = [line.split(" ") for line in kwargs["raw_data"]]
+    final_horizontal_pos = sum(
+        int(line[1]) for line in course_data if line[0] == "forward"
+    )
+    final_depth = sum(int(line[1]) for line in course_data if line[0] == "down") - sum(
+        int(line[1]) for line in course_data if line[0] == "up"
     )
     return final_horizontal_pos * final_depth
 
@@ -67,6 +66,3 @@ def solution2(**kwargs) -> int:
 
 if __name__ == "__main__":
     main()
-
-"""
-"""
