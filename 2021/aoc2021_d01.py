@@ -1,8 +1,7 @@
 import argparse
 import re
-import sys
 from os.path import basename
-from itertools import pairwise, tee
+from itertools import pairwise
 from aoc2021_tools import load_data
 
 """ https://adventofcode.com/2021/day/1 """
