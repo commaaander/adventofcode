@@ -1,4 +1,4 @@
-name: Lint with black
+name: Lint with Flake8
 
 on: [push]
 
@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install black
-      - name: Analysing the code with black
+          pip install flake8
+      - name: Analysing the code with flake8
         run: |
-          black --target-version py310 `find . -type f -name '*.py' | xargs`
+          flake8 --config ./pyproject.toml `find . -type f -name '*.py' | xargs`
