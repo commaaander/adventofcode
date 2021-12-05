@@ -58,43 +58,34 @@ def input_interpreter(input: list) -> dict:
 
 def execute_commands(commands: dict, part2: bool = False) -> dict:
     floor_map = {}
-    for index, command in commands.items():
+    for cmd in commands.values():
 
-        if command["x1"] == command["x2"]:
-            line_length = abs(command["y2"] - command["y1"])
-            start = min(command["y1"], command["y2"])
+        x1, x2, y1, y2 = cmd["x1"], cmd["x2"], cmd["y1"], cmd["y2"]
+        if x1 == x2:
+            line_length = abs(y2 - y1)
+            start = min(y1, y2)
             for i in range(line_length + 1):
-                increment_point_count(floor_map, command["x1"], start + i)
+                increment_point_count(floor_map, x1, start + i)
 
-        elif command["y1"] == command["y2"]:
-            line_length = abs(command["x2"] - command["x1"])
-            start = min(command["x1"], command["x2"])
+        elif y1 == y2:
+            line_length = abs(x2 - x1)
+            start = min(x1, x2)
             for i in range(line_length + 1):
-                increment_point_count(floor_map, start + i, command["y1"])
+                increment_point_count(floor_map, start + i, y1)
 
         else:
             if part2:
-                line_length = abs(command["x2"] - command["x1"])
-                if command["x1"] >= command["x2"] and command["y1"] >= command["y2"]:
-                    for i in range(line_length + 1):
-                        increment_point_count(
-                            floor_map, command["x1"] - i, command["y1"] - i
-                        )
-                elif command["x1"] <= command["x2"] and command["y1"] >= command["y2"]:
-                    for i in range(line_length + 1):
-                        increment_point_count(
-                            floor_map, command["x1"] + i, command["y1"] - i
-                        )
-                elif command["x1"] <= command["x2"] and command["y1"] <= command["y2"]:
-                    for i in range(line_length + 1):
-                        increment_point_count(
-                            floor_map, command["x1"] + i, command["y1"] + i
-                        )
-                elif command["x1"] >= command["x2"] and command["y1"] <= command["y2"]:
-                    for i in range(line_length + 1):
-                        increment_point_count(
-                            floor_map, command["x1"] - i, command["y1"] + i
-                        )
+                line_length = abs(x2 - x1)
+                if x1 >= x2 and y1 >= y2:
+                    dx, dy = -1, -1
+                elif x1 <= x2 and y1 >= y2:
+                    dx, dy = 1, -1
+                elif x1 <= x2 and y1 <= y2:
+                    dx, dy = 1, 1
+                elif x1 >= x2 and y1 <= y2:
+                    dx, dy = -1, 1
+                for i in range(line_length + 1):
+                    increment_point_count(floor_map, x1 + dx * i, y1 + dy * i)
     return floor_map
 
 
