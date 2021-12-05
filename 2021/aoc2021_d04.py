@@ -24,13 +24,20 @@ def main():
     # load data
     raw_data = load_data(cmdl_args.debug).read().split("\n")
 
-    question = "What will your final score be if you choose that board?"
+    question = (
+        "To guarantee victory against the giant squid, figure out which board "
+        "will win first. What will your final score be if you choose that board?"
+    )
+
     solution = solution1(raw_data=raw_data, debug=cmdl_args.debug)
     print(f"Solution part one:\n\t{question}: {solution}")
 
-    question = ""
+    question = (
+        "Figure out which board will win last. "
+        "Once it wins, what would its final score be?"
+    )
     solution = solution2(raw_data=raw_data, debug=cmdl_args.debug)
-    print(f"Solution part one:\n\t{question}: {solution}")
+    print(f"Solution part two:\n\t{question}: {solution}")
 
 
 def solution1(**kwargs) -> int:
