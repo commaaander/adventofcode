@@ -3,11 +3,11 @@ def main():
     inputLines = inputFile.readlines()
 
     results = [
-        traverseMap(1, 1, inputLines)
-        , traverseMap(3, 1, inputLines)
-        , traverseMap(5, 1, inputLines)
-        , traverseMap(7, 1, inputLines)
-        , traverseMap(1, 2, inputLines)
+        traverseMap(1, 1, inputLines),
+        traverseMap(3, 1, inputLines),
+        traverseMap(5, 1, inputLines),
+        traverseMap(7, 1, inputLines),
+        traverseMap(1, 2, inputLines),
     ]
 
     resultsProd = 1
@@ -26,7 +26,7 @@ def traverseMap(stepX, stepY, wood):
     encounteredTreesCount = 0
 
     while y <= len(wood) - 1:
-        if wood[y][x % width] == '#':
+        if wood[y][x % width] == "#":
             encounteredTreesCount += 1
         x += stepX
         y += stepY

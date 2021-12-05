@@ -16,7 +16,7 @@ def main():
             if not rule_function(code):
                 rule_passed = False
                 continue
-        
+
         if rule_passed:
             print(f"{code} passed.")
             codes_ok_count += 1
@@ -39,11 +39,11 @@ def rule2(code: int):
 def rule3(code: int):
     # Going from left to right, the digits never decrease; they only ever increase
     # or stay the same (like 111123 or 135679)
-    code_string=str(code)
-    for i in range(1,len(code_string)):
-        if code_string[i] < code_string[i-1]:
+    code_string = str(code)
+    for i in range(1, len(code_string)):
+        if code_string[i] < code_string[i - 1]:
             return False
-    
+
     return True
 
 

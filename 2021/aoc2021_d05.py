@@ -4,6 +4,7 @@ import re
 import sys
 from io import TextIOWrapper
 from os.path import basename
+from rich import print
 
 """ https://adventofcode.com/2021/day/5 """
 
@@ -25,11 +26,11 @@ def main():
 
     question = "At how many points do at least two lines overlap?"
     solution = solution1(raw_data=raw_data, debug=cmdl_args.debug)
-    print(f"Solution part one:\n\t{question} {solution}")
+    print(f"[yellow]Solution part one:[/yellow]\n{question} {solution}")
 
     question = "At how many points do at least two lines overlap?"
     solution = solution2(raw_data=raw_data, debug=cmdl_args.debug)
-    print(f"Solution part two:\n\t{question} {solution}")
+    print(f"[yellow]Solution part two:[/yellow]\n{question} {solution}")
 
 
 def solution1(**kwargs) -> int:

@@ -43,7 +43,7 @@ def get_fabric(data):
                 try:
                     if claim_id not in fabric[coords]:
                         fabric[coords].append(claim_id)
-                except KeyError as ke:
+                except KeyError:
                     fabric[coords] = [claim_id]
     return fabric
 

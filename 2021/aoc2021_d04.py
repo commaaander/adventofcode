@@ -65,10 +65,11 @@ def solution2(**kwargs) -> int:
             for board_set in board_sets:
                 if board_set.intersection(drawn_numbers) == board_set:
                     print(f"Bingo! {number} on board {board_index} {board_set}")
+                    board_sets.remove(board_set)
                     all_board_numbers = set()
                     for board_set in board_sets:
                         all_board_numbers = all_board_numbers.union(board_set)
-                    return number * sum(all_board_numbers.difference(drawn_numbers))
+                    # return number * sum(all_board_numbers.difference(drawn_numbers))
     return 0
 
 

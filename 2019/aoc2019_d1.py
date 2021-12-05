@@ -1,6 +1,11 @@
-import math, sys, pathlib
+import math
+import pathlib
 
-input_file = f"{pathlib.Path(__file__).parent.absolute()}/data/{pathlib.Path(__file__).stem}.data"
+input_file = (
+    f"{pathlib.Path(__file__).parent.absolute()}"
+    f"/data/{pathlib.Path(__file__).stem}.data"
+)
+
 
 def main():
 

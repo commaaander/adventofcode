@@ -5,18 +5,20 @@ debug = False
 
 
 def main():
-    raw_data = load_data(f"d05{'_test' if debug else ''}.data", split_sep='\n')
+    raw_data = load_data(f"d05{'_test' if debug else ''}.data", split_sep="\n")
 
     print(
         f"solution part one:\n\t"
         f"How many strings are nice? "
         f"{solution1(raw_data)}\n",
-        end="")
+        end="",
+    )
     print(
         f"solution part two:\n\t"
         f"How many strings are nice under these new rules? "
         f"{solution2(raw_data)}\n",
-        end="")
+        end="",
+    )
 
 
 def solution1(word_list):
@@ -26,8 +28,11 @@ def solution1(word_list):
     rule3 = re.compile(r"ab|cd|pq|xy")
 
     for word in word_list:
-        if test_rule(rule1, word) and test_rule(
-                rule2, word) and not test_rule(rule3, word):
+        if (
+            test_rule(rule1, word)
+            and test_rule(rule2, word)
+            and not test_rule(rule3, word)
+        ):
             if debug:
                 print(f"{word} is nice")
             nice_word_count += 1
@@ -54,10 +59,14 @@ def test_rule(regex, word: str):
     if match:
         ret_val = True
         if debug:
-            print(f"{regex} {word} result: {match.group()}", )
+            print(
+                f"{regex} {word} result: {match.group()}",
+            )
     else:
         if debug:
-            print(f"{regex} {word} did not pass", )
+            print(
+                f"{regex} {word} did not pass",
+            )
     return ret_val
 
 

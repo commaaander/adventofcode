@@ -1,6 +1,9 @@
 import pathlib
 
-input_file = f"{pathlib.Path(__file__).parent.absolute()}/data/{pathlib.Path(__file__).stem}.data"
+input_file = (
+    f"{pathlib.Path(__file__).parent.absolute()}"
+    f"/data/{pathlib.Path(__file__).stem}.data"
+)
 
 
 def main():
@@ -34,7 +37,8 @@ def main():
     min_m_distance = min(abs(x[0]) + abs(x[1]) for x in intersections)
 
     print(
-        f"Part1:\nQuestion: What is the Manhattan distance from the central port to the closest intersection?\nAnswer: {min_m_distance}"
+        f"Part1:\nQuestion: What is the Manhattan distance from the central port to "
+        f"the closest intersection?\nAnswer: {min_m_distance}"
     )
 
     i = 0

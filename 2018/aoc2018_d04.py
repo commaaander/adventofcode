@@ -56,7 +56,8 @@ def get_guard_sleep_times(data):
     for event in data:
 
         match = re.search(
-            "^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}\] Guard #([0-9]+) begins shift$",
+            r"^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}\] Guard #([0-9]+) begins "
+            r"shift$",
             event,
         )
         try:
@@ -69,7 +70,7 @@ def get_guard_sleep_times(data):
             guard_sleep_times[guard_id] = {}
 
         match = re.search(
-            "^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:([0-9]{2})\] falls asleep$", event
+            r"^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:([0-9]{2})\] falls asleep$", event
         )
         try:
             falls_asleep = int(match.group(1).lstrip("0"))
@@ -81,7 +82,7 @@ def get_guard_sleep_times(data):
             pass
 
         match = re.search(
-            "^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:([0-9]{2})\] wakes up$", event
+            r"^\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:([0-9]{2})\] wakes up$", event
         )
         try:
             wakes_up = int(match.group(1).lstrip("0"))

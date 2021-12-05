@@ -1,6 +1,9 @@
 import pathlib
 
-input_file = f"{pathlib.Path(__file__).parent.absolute()}/data/{pathlib.Path(__file__).stem}.data"
+input_file = (
+    f"{pathlib.Path(__file__).parent.absolute()}"
+    f"/data/{pathlib.Path(__file__).stem}.data"
+)
 
 
 def main():
@@ -9,7 +12,8 @@ def main():
         program = input_data.read().split(",")
 
     print(
-        f"\nPart 1\n*******\nvalue at position 0: {part1(list(map(int, program)), 12, 2)}\n"
+        f"\nPart 1\n*******\nvalue at position 0: "
+        f"{part1(list(map(int, program)), 12, 2)}\n"
     )
 
     print(f"\nPart 2\n*******\nnoun-verb-value: {part2(list(map(int, program)))}\n")

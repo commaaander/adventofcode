@@ -1,6 +1,7 @@
 import pathlib
 import sys
 
+
 def main():
     sys.setrecursionlimit(10000)
 
@@ -36,10 +37,6 @@ def reactions(round, polymere):
 
     for unit in units:
         polymere = polymere.replace(unit, "")
-
-    # print(
-    #     f"Round {round}: {int((polymere_length - len(polymere))/2):d} reactions, {len(polymere)} units left"
-    # )
 
     if len(polymere) < polymere_length:
         polymere = reactions(round + 1, polymere)
