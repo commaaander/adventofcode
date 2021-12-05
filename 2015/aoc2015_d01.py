@@ -13,7 +13,8 @@ def main():
     )
     print(
         f"solution part one:\n\t"
-        f"What is the position of the character that causes Santa to first enter the basement? "
+        f"What is the position of the character that causes Santa to first enter "
+        f"the basement? "
         f"{solution2(raw_data)}"
     )
     pass
