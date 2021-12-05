@@ -92,7 +92,7 @@ def execute_commands(commands: dict, part2: bool = False) -> dict:
 def increment_point_count(floor_map: dict, x: int, y: int):
     try:
         floor_map[(x, y)] += 1
-    except Exception:
+    except KeyError:
         floor_map[(x, y)] = 1
 
 
