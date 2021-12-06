@@ -24,12 +24,14 @@ def main():
     # load data
     raw_data = [int(i) for i in load_data(cmdl_args.debug).read().split(",")]
 
-    question = "How many lanternfish would there be after 80 days?"
-    solution = solution1(raw_data=raw_data, debug=cmdl_args.debug, days=80)
+    days = 80
+    question = f"How many lanternfish would there be after {days} days?"
+    solution = solution1(raw_data=raw_data, debug=cmdl_args.debug, days=days)
     print(f"[yellow]Solution part one:[/yellow]\n{question} {solution}")
 
-    question = ""
-    solution = solution2(raw_data=raw_data, debug=cmdl_args.debug, days=80)
+    days = 256
+    question = f"How many lanternfish would there be after {days} days?"
+    solution = solution2(raw_data=raw_data, debug=cmdl_args.debug, days=days)
     print(f"[yellow]Solution part two:[/yellow]\n{question} {solution}")
 
 
@@ -39,21 +41,19 @@ def solution1(**kwargs) -> int:
         new_fishes = sum(1 for f in swarm if f == 0)
         swarm = [f - 1 if f > 0 else 6 for f in swarm]
         swarm += new_fishes * [8]
-        print(f"Day {day}: {len(swarm)}")
     return len(swarm)
 
 
 def solution2(**kwargs) -> int:
     fish_types = {}
-    for i in range(8):
+    for i in range(9):
         fish_types[i] = sum(1 for f in kwargs["raw_data"] if f == i)
     for day in range(kwargs["days"]):
         new_fishes = fish_types[0]
-        for i in range(7):
+        for i in range(8):
             fish_types[i] = fish_types[i + 1]
         fish_types[6] += new_fishes
-        fish_types[7] = new_fishes
-        print(f"Day {day}: {sum(fish_types[i] for i in fish_types)}")
+        fish_types[8] = new_fishes
     return sum(fish_types[i] for i in fish_types)
 
 
