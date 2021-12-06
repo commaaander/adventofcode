@@ -1,207 +1,65 @@
-data = [1895,
-        1732,
-        1660,
-        1658,
-        1878,
-        367,
-        2010,
-        1989,
-        431,
-        1946,
-        1614,
-        2003,
-        945,
-        1856,
-        1934,
-        1937,
-        1781,
-        1947,
-        1991,
-        1917,
-        1604,
-        1707,
-        1966,
-        1959,
-        1182,
-        1828,
-        1880,
-        1908,
-        1942,
-        1687,
-        1611,
-        1922,
-        1913,
-        1803,
-        1976,
-        1718,
-        1885,
-        1971,
-        2000,
-        1912,
-        1981,
-        1776,
-        1901,
-        1941,
-        1935,
-        1977,
-        1907,
-        1893,
-        1898,
-        1975,
-        2001,
-        1833,
-        1951,
-        1939,
-        1988,
-        1870,
-        1985,
-        1932,
-        1930,
-        1938,
-        1926,
-        1931,
-        1982,
-        76,
-        1979,
-        657,
-        1872,
-        1933,
-        1961,
-        1987,
-        1998,
-        1994,
-        418,
-        1914,
-        1929,
-        1810,
-        2009,
-        1712,
-        830,
-        1990,
-        1900,
-        1876,
-        1753,
-        1859,
-        1965,
-        1963,
-        1905,
-        1921,
-        1685,
-        1694,
-        697,
-        1899,
-        1997,
-        1964,
-        1927,
-        1952,
-        1894,
-        1960,
-        1986,
-        1883,
-        1616,
-        1993,
-        1892,
-        1943,
-        2005,
-        1995,
-        1915,
-        1663,
-        1954,
-        1902,
-        1191,
-        1948,
-        1875,
-        1850,
-        1955,
-        1962,
-        1984,
-        1957,
-        1969,
-        1887,
-        1953,
-        1786,
-        1638,
-        1909,
-        1881,
-        603,
-        1973,
-        1784,
-        1869,
-        1925,
-        1968,
-        1737,
-        1807,
-        1950,
-        1992,
-        1936,
-        1918,
-        1891,
-        1897,
-        1940,
-        1919,
-        1910,
-        1862,
-        1958,
-        1832,
-        1904,
-        1791,
-        1920,
-        1874,
-        1729,
-        1643,
-        2007,
-        1871,
-        1999,
-        1584,
-        1890,
-        1924,
-        1974,
-        1701,
-        1906,
-        143,
-        1725,
-        1945,
-        1783,
-        1873,
-        1903,
-        167,
-        1855,
-        1633,
-        1956,
-        1996,
-        1808,
-        1884,
-        1916,
-        829,
-        2002,
-        1852,
-        1835,
-        1889,
-        1983,
-        1949,
-        1970,
-        1774,
-        1764,
-        1609,
-        1882,
-        1857,
-        2004,
-        1911,
-        1896,
-        1980,
-        2006,
-        1967,
-        2008,
-        1972,
-        1648,
-        1923,
-        1978,
-        1675,
-        1831]
+import re
+from itertools import permutations
+import argparse
+from io import TextIOWrapper
+from os.path import basename
+import pathlib
+import sys
+from rich import print
 
-for i in range(len(data)):
-    for j in range(i+1, len(data)):
-        for k in range(len(data)):
-            if data[i] + data[j] + data[k] == 2020:
-                print(i, j, k, data[i], data[j], data[k], data[i] + data[j]
-                      + data[k], data[i] * data[j] * data[k])
+
+""" https://adventofcode.com/2020/day/1 """
+
+
+def init_cmdl_parser() -> argparse.ArgumentParser:
+    cmdl_parser = argparse.ArgumentParser()
+    cmdl_parser.add_argument("-d", "--debug", help="Debug", action="store_true")
+    return cmdl_parser
+
+
+def main():
+
+    # get command line args
+    cmdl_parser = init_cmdl_parser()
+    cmdl_args = cmdl_parser.parse_args()
+
+    # load data
+    raw_data = load_data(cmdl_args.debug).read().split("\n")
+
+    question = "At how many points do at least two lines overlap?"
+    solution = solution1(raw_data=raw_data, debug=cmdl_args.debug)
+    print(f"[yellow]Solution part one:[/yellow]\n{question} {solution}")
+
+    question = "At how many points do at least two lines overlap?"
+    solution = solution2(raw_data=raw_data, debug=cmdl_args.debug)
+    print(f"[yellow]Solution part two:[/yellow]\n{question} {solution}")
+
+
+def solution1(**kwargs) -> int:
+    int_data = list(int(i) for i in kwargs["raw_data"])
+    return [i * j for i, j in permutations(int_data, 2) if i + j == 2020][0]
+
+
+def solution2(**kwargs) -> int:
+    int_data = list(int(i) for i in kwargs["raw_data"])
+    return [i * j * k for i, j, k in permutations(int_data, 3) if i + j + k == 2020][0]
+
+
+def load_data(debug: bool) -> TextIOWrapper:
+    day = re.search(r"aoc.*_(?P<day>d[0-9]{2})", basename(__file__)).group("day")
+    input_file_name = (
+        f"{pathlib.Path(__file__).parent.absolute()}"
+        f"/data/{day}{'_test' if debug else ''}.data"
+    )
+
+    try:
+        input_file = open(input_file_name)
+    except FileNotFoundError as e:
+        print(f"While trying to read data file: {e}")
+        sys.exit(e.errno)
+
+    return input_file
+
+
+if __name__ == "__main__":
+    main()
