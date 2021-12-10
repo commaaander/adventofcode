@@ -16,7 +16,7 @@ def main():
     cmdl_args = cmdl_parser.parse_args()
 
     # load data
-    raw_data = load_data(cmdl_args.debug).read().split("\n")
+    raw_data = load_data(use_test_data=cmdl_args.test).read().split("\n")
 
     question = ""
     solution = solution1(raw_data=raw_data, debug=cmdl_args.debug)
@@ -29,14 +29,16 @@ def main():
 
 def solution1(**kwargs) -> int:
     area_map = [[int(x) for x in row] for row in kwargs["raw_data"]]
-    sum = 0
+    low_points = []
     for y, row in enumerate(area_map):
         for x, value in enumerate(row):
             if is_low_point(x, y, area_map):
-                print(f"Low Point {x=},{y=}: {value=}")
-                sum += int(value) + 1
-    draw_area_map(area_map)
-    return sum
+                low_points.append((x, y, value))
+    if kwargs["debug"]:
+        print(low_points)
+        print()
+        draw_area_map(area_map)
+    return sum(value + 1 for _, _, value in low_points)
 
 
 def solution2(**kwargs) -> int:
@@ -45,8 +47,6 @@ def solution2(**kwargs) -> int:
 
 def is_low_point(x: int, y: int, area_map: list) -> bool:
     ret_val = True
-    if x == 0 and y == 73:
-        pass
     for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0)]:
         try:
             if y + dy < 0 or x + dx < 0:
@@ -73,14 +73,15 @@ def draw_area_map(area_map: list) -> None:
 def init_cmdl_parser() -> argparse.ArgumentParser:
     cmdl_parser = argparse.ArgumentParser()
     cmdl_parser.add_argument("-d", "--debug", help="Debug", action="store_true")
+    cmdl_parser.add_argument("-t", "--test", help="Use test data", action="store_true")
     return cmdl_parser
 
 
-def load_data(debug: bool) -> TextIOWrapper:
+def load_data(use_test_data: bool) -> TextIOWrapper:
     day = re.search(r"aoc.*_(?P<day>d[0-9]{2})", basename(__file__)).group("day")
     input_file_name = (
         f"{pathlib.Path(__file__).parent.absolute()}"
-        f"/data/{day}{'_test' if debug else ''}.data"
+        f"/data/{day}{'_test' if use_test_data else ''}.data"
     )
 
     try:
