@@ -39,65 +39,65 @@ def main():
 def solution1(**kwargs) -> int:
     global FLASH_COUNTER
 
-    octopuses = create_octopus_map(kwargs["raw_data"])
+    octo_map = create_octo_map(kwargs["raw_data"])
 
     dprint("\n[underline]Start:[/underline]")
-    dprint(print_octopuses(octopuses))
+    dprint(print_octopuses(octo_map))
 
     for i in range(kwargs["steps"]):
 
-        for x, y in octopuses:
-            octopuses[(x, y)] += 1
-        for x, y in octopuses:
-            if octopuses[(x, y)] > 9:
-                flash_octopus(x, y, octopuses)
+        for x, y in octo_map:
+            octo_map[(x, y)] += 1
+        for x, y in octo_map:
+            if octo_map[(x, y)] > 9:
+                flash_octopus(x, y, octo_map)
 
         dprint(f"\n[underline]After Step {i+1}:[/underline]")
-        dprint(print_octopuses(octopuses))
+        dprint(print_octopuses(octo_map))
 
     return FLASH_COUNTER
 
 
 def solution2(**kwargs) -> int:
 
-    octopuses = create_octopus_map(kwargs["raw_data"])
+    octo_map = create_octo_map(kwargs["raw_data"])
     step = 0
-    while sum(v for v in octopuses.values()) > 0:
+    while sum(v for v in octo_map.values()) > 0:
         step += 1
 
-        for x, y in octopuses:
-            octopuses[(x, y)] += 1
-        for x, y in octopuses:
-            if octopuses[(x, y)] > 9:
-                flash_octopus(x, y, octopuses)
+        for x, y in octo_map:
+            octo_map[(x, y)] += 1
+        for x, y in octo_map:
+            if octo_map[(x, y)] > 9:
+                flash_octopus(x, y, octo_map)
 
         dprint(f"\n[underline]After Step {step}:[/underline]")
-        dprint(print_octopuses(octopuses))
+        dprint(print_octopuses(octo_map))
 
     return step
 
 
-def create_octopus_map(input_data: list) -> dict:
-    octopuses = {}
+def create_octo_map(input_data: list) -> dict:
+    octo_map = {}
     for y, row in enumerate(input_data):
         for x, value in enumerate(row):
-            octopuses[(x, y)] = int(value)
-    return octopuses
+            octo_map[(x, y)] = int(value)
+    return octo_map
 
 
-def flash_octopus(x: int, y: int, octopuses: dict) -> None:
+def flash_octopus(x: int, y: int, octo_map: dict) -> None:
 
     global FLASH_COUNTER
 
     deltas = [-1, 0, 1]
-    octopuses[(x, y)] = 0
+    octo_map[(x, y)] = 0
 
     for dx, dy in [c for c in product(deltas, deltas) if c != (0, 0)]:
         try:
-            if octopuses[(x + dx, y + dy)] > 0:
-                octopuses[(x + dx, y + dy)] += 1
-                if octopuses[(x + dx, y + dy)] > 9:
-                    flash_octopus(x + dx, y + dy, octopuses)
+            if octo_map[(x + dx, y + dy)] > 0:
+                octo_map[(x + dx, y + dy)] += 1
+                if octo_map[(x + dx, y + dy)] > 9:
+                    flash_octopus(x + dx, y + dy, octo_map)
 
         except KeyError:
             pass
@@ -105,15 +105,15 @@ def flash_octopus(x: int, y: int, octopuses: dict) -> None:
     return
 
 
-def print_octopuses(octopuses: dict) -> str:
-    xmax = max(x for x, _ in octopuses.keys()) + 1
-    ymax = max(y for _, y in octopuses.keys()) + 1
+def print_octopuses(octo_map: dict) -> str:
+    xmax = max(x for x, _ in octo_map.keys()) + 1
+    ymax = max(y for _, y in octo_map.keys()) + 1
     output = ""
     for y in range(ymax):
         output += f"{y:3d}\t"
         for x in range(xmax):
-            color = "bright_yellow" if octopuses[(x, y)] == 0 else "white"
-            output += f"[{color}]{octopuses[(x, y)]}[/{color}]"
+            color = "bright_yellow" if octo_map[(x, y)] == 0 else "white"
+            output += f"[{color}]{octo_map[(x, y)]}[/{color}]"
         output += "\n"
     return output
 
