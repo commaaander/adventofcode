@@ -27,11 +27,11 @@ def main():
     # load data
     raw_data = load_data(use_test_data=cmdl_args.test).read().split("\n")
 
-    question = ""
+    question = "How many total flashes are there after 100 steps?"
     solution = solution1(raw_data=raw_data, steps=100)
     print(f"[yellow]Solution part one:[/yellow]\n{question} {solution}")
 
-    question = ""
+    question = "What is the first step during which all octopuses flash?"
     solution = solution2(raw_data=raw_data)
     print(f"[yellow]Solution part two:[/yellow]\n{question} {solution}")
 
