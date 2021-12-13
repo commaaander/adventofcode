@@ -2,13 +2,17 @@
 
 import argparse
 import importlib
+import logging
+import os
+import re
 import sys
 from io import TextIOWrapper
 from pathlib import Path
 
 from rich import print
-import logging
+from rich.console import Console
 from rich.logging import RichHandler
+from rich.table import Table
 
 """ https://adventofcode.com/2021/day/11 """
 
@@ -29,8 +33,12 @@ def main():
     cmdl_args = cmdl_parser.parse_args()
 
     # set globals
-    if cmdl_args.debug:
+    if cmdl_args.verbose:
         LOG.setLevel(logging.DEBUG)
+
+    if cmdl_args.list:
+        list_solutions()
+        sys.exit(0)
 
     # load data
     raw_data = load_data(
@@ -57,8 +65,13 @@ def main():
 def init_cmdl_parser() -> argparse.ArgumentParser:
 
     cmdl_parser = argparse.ArgumentParser()
-    cmdl_parser.add_argument("-D", "--debug", help="Debug", action="store_true")
+    cmdl_parser.add_argument(
+        "-v", "--verbose", help="Set log level to 'Debug'", action="store_true"
+    )
     cmdl_parser.add_argument("-t", "--test", help="Use test data", action="store_true")
+    cmdl_parser.add_argument(
+        "-l", "--list", help="List available solutions", action="store_true"
+    )
     cmdl_parser.add_argument(
         "-y", "--year", metavar="YEAR", help="Year", type=int, required=True
     )
@@ -67,6 +80,21 @@ def init_cmdl_parser() -> argparse.ArgumentParser:
     )
 
     return cmdl_parser
+
+
+def list_solutions():
+    solutions = Table(title="Advent Of Code Solutions")
+    solutions.add_column("Year")
+    solutions.add_column("Day")
+
+    for dir in os.listdir("."):
+        if os.path.isdir(dir) and re.search(r"^aoc_\d{4}$", dir):
+            for module in os.listdir(dir):
+                if re.search(r"^day_\d{2}.py$", module):
+                    solutions.add_row(dir, module)
+
+    console = Console()
+    console.print(solutions)
 
 
 def load_data(use_test_data: bool, year: int, day: int) -> TextIOWrapper:
