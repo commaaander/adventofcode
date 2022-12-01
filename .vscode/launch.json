@@ -1,0 +1,34 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "🐍: Debug AOC",
+            "type": "python",
+            "request": "launch",
+            "program": "./adventofcode.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--verbose",
+                "--test",
+                "--year",
+                "2022",
+                "--day",
+                "01",
+            ]
+        },
+        {
+            "name": "🐍: Debug current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--debug",
+                "--test",
+            ]
+        },
+    ]
+}

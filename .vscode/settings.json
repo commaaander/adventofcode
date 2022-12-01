@@ -1,0 +1,21 @@
+{
+    "workbench.colorCustomizations": {
+        "editorRuler.foreground": "#004444"
+    },
+    "[python]": {
+        "editor.rulers": [
+            129
+        ],
+    },
+    "black-formatter.args": [
+        "--target-version",
+        "py310",
+        "--line-length",
+        "129"
+    ],
+    "flake8.args": [
+        "--max-line-length",
+        "129"
+    ],
+    "editor.formatOnSave": true,
+}
