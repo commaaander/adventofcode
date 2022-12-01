@@ -20,4 +20,4 @@ jobs:
           pip install flake8
       - name: Analysing the code with flake8
         run: |
-          flake8 --config ./pyproject.toml `find . -type f -name '*.py' | xargs`
+          flake8 --max-line-length 129 `find . -type f -name '*.py' | xargs`
