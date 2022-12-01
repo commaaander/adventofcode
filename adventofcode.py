@@ -14,9 +14,6 @@ from rich.console import Console
 from rich.logging import RichHandler
 from rich.table import Table
 
-""" https://adventofcode.com/2021/day/11 """
-
-
 logging.basicConfig(
     level=logging.ERROR,
     format="%(message)s",
@@ -41,9 +38,7 @@ def main():
         sys.exit(0)
 
     # load data
-    raw_data = load_data(
-        use_test_data=cmdl_args.test, year=cmdl_args.year, day=cmdl_args.day
-    ).read()
+    raw_data = load_data(use_test_data=cmdl_args.test, year=cmdl_args.year, day=cmdl_args.day).read()
 
     try:
         solution_module = f"aoc_{cmdl_args.year}.day_{cmdl_args.day:02d}"
@@ -65,19 +60,11 @@ def main():
 def init_cmdl_parser() -> argparse.ArgumentParser:
 
     cmdl_parser = argparse.ArgumentParser()
-    cmdl_parser.add_argument(
-        "-v", "--verbose", help="Set log level to 'Debug'", action="store_true"
-    )
+    cmdl_parser.add_argument("-v", "--verbose", help="Set log level to 'Debug'", action="store_true")
     cmdl_parser.add_argument("-t", "--test", help="Use test data", action="store_true")
-    cmdl_parser.add_argument(
-        "-l", "--list", help="List available solutions", action="store_true"
-    )
-    cmdl_parser.add_argument(
-        "-y", "--year", metavar="YEAR", help="Year", type=int, required=True
-    )
-    cmdl_parser.add_argument(
-        "-d", "--day", metavar="DAY", help="Day", type=int, required=True
-    )
+    cmdl_parser.add_argument("-l", "--list", help="List available solutions", action="store_true")
+    cmdl_parser.add_argument("-y", "--year", metavar="YEAR", help="Year", type=int, required=True)
+    cmdl_parser.add_argument("-d", "--day", metavar="DAY", help="Day", type=int, required=True)
 
     return cmdl_parser
 
@@ -98,10 +85,7 @@ def list_solutions():
 
 
 def load_data(use_test_data: bool, year: int, day: int) -> TextIOWrapper:
-    input_file_name = (
-        f"{Path(__file__).parent.absolute()}"
-        f"/{year}/data/d{day:02d}{'_test' if use_test_data else ''}.data"
-    )
+    input_file_name = f"{Path(__file__).parent.absolute()}" f"/{year}/data/d{day:02d}{'_test' if use_test_data else ''}.data"
 
     try:
         input_file = open(input_file_name)
