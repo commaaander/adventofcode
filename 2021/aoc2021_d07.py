@@ -55,7 +55,7 @@ def solution2(**kwargs) -> int:
                 int(sum((abs(i - level) * (abs(i - level) + 1)) / 2 for i in kwargs["raw_data"])),
             )
         )
-    return min(levels, key=lambda l: l[1])[1]
+    return min(levels, key=lambda k: k[1])[1]
 
 
 def load_data(debug: bool) -> TextIOWrapper:
