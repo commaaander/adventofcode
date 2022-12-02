@@ -11,16 +11,12 @@ questions = [
 def part_one(**kwargs):
     LOG.debug(f"part_one({kwargs=})")
 
-    calories_list = kwargs["raw_data"].split("\n")
+    calories_list = kwargs["raw_data"].split("\n\n")
 
     calories_per_elf = []
-    calories = 0
+
     for c in calories_list:
-        if c == "":
-            calories_per_elf.append(calories)
-            calories = 0
-        else:
-            calories += int(c)
+        calories_per_elf.append(sum(int(x) for x in c.split("\n") if x != ""))
 
     return questions[0], max(calories_per_elf)
 
