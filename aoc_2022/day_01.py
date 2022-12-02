@@ -35,4 +35,4 @@ def part_two(**kwargs):
         else:
             calories += int(c)
 
-    return questions[1], sum(sorted(calories_per_elf, reverse=True)[:3])
+    return questions[1], sum(sorted(calories_per_elf)[-3:])
