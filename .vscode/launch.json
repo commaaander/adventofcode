@@ -1,8 +1,5 @@
 {
-    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
-    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
-    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
+    "version": "0.3.0",
     "configurations": [
         {
             "name": "🐍: Debug AOC",
@@ -16,19 +13,8 @@
                 "--year",
                 "2022",
                 "--day",
-                "01",
+                "04",
             ]
-        },
-        {
-            "name": "🐍: Debug current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "args": [
-                "--debug",
-                "--test",
-            ]
-        },
+        }
     ]
 }
