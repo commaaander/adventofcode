@@ -90,7 +90,7 @@ def list_solutions():
 
 
 def load_data(use_test_data: bool, year: int, day: int) -> TextIOWrapper:
-    input_file_name = f"{Path(__file__).parent.absolute()}" f"/{year}/data/d{day:02d}{'_test' if use_test_data else ''}.data"
+    input_file_name = f"{Path(__file__).parent.absolute()}" f"/aoc_{year}/data/d{day:02d}{'_test' if use_test_data else ''}.data"
 
     try:
         input_file = open(input_file_name)
