@@ -1,4 +1,4 @@
-""" https://adventofcode.com/2022/dayXX """
+""" https://adventofcode.com/2022/day/X """
 
 from adventofcode import LOG
 
