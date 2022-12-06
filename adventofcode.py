@@ -33,6 +33,8 @@ def main():
     if cmdl_args.verbose:
         LOG.setLevel(logging.DEBUG)
 
+    LOG.debug(cmdl_args)
+
     if cmdl_args.list:
         list_solutions()
         sys.exit(0)
@@ -48,11 +50,13 @@ def main():
         print(e)
         sys.exit(-1)
 
-    question, answer = solution.part_one(raw_data=raw_data)
-    print(f"[yellow]Solution part one:[/yellow]\n{question} {answer}")
+    if cmdl_args.solution in ("1", "all"):
+        question, answer = solution.part_one(raw_data=raw_data)
+        print(f"[yellow]Solution part one:[/yellow]\n{question} {answer}")
 
-    question, answer = solution.part_two(raw_data=raw_data)
-    print(f"[yellow]Solution part two:[/yellow]\n{question} {answer}")
+    if cmdl_args.solution in ("2", "all"):
+        question, answer = solution.part_two(raw_data=raw_data)
+        print(f"[yellow]Solution part two:[/yellow]\n{question} {answer}")
 
     return
 
@@ -65,6 +69,7 @@ def init_cmdl_parser() -> argparse.ArgumentParser:
     cmdl_parser.add_argument("-l", "--list", help="List available solutions", action="store_true")
     cmdl_parser.add_argument("-y", "--year", metavar="YEAR", help="Year", type=int, required=True)
     cmdl_parser.add_argument("-d", "--day", metavar="DAY", help="Day", type=int, required=True)
+    cmdl_parser.add_argument("-s", "--solution", metavar="SOLUTION", help="Solution", type=str, default="all")
 
     return cmdl_parser
 
