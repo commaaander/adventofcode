@@ -24,7 +24,6 @@ LOG = logging.getLogger("rich")
 
 
 def main():
-
     # get command line args
     cmdl_parser = init_cmdl_parser()
     cmdl_args = cmdl_parser.parse_args()
@@ -62,7 +61,6 @@ def main():
 
 
 def init_cmdl_parser() -> argparse.ArgumentParser:
-
     cmdl_parser = argparse.ArgumentParser()
     cmdl_parser.add_argument("-v", "--verbose", help="Set log level to 'Debug'", action="store_true")
     cmdl_parser.add_argument("-t", "--test", help="Use test data", action="store_true")

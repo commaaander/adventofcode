@@ -28,9 +28,7 @@ def part_one(**kwargs):
 
     chars = {c: template.count(c) for c in set(template)}
     LOG.debug(f"{chars=}")
-    return questions[0], max(chars[k] for k in chars.keys()) - min(
-        chars[k] for k in chars.keys()
-    )
+    return questions[0], max(chars[k] for k in chars.keys()) - min(chars[k] for k in chars.keys())
 
 
 def part_two(**kwargs):
@@ -52,9 +50,7 @@ def part_two(**kwargs):
 
     chars = {c: template.count(c) for c in set(template)}
     LOG.debug(f"{chars=}")
-    return questions[0], max(chars[k] for k in chars.keys()) - min(
-        chars[k] for k in chars.keys()
-    )
+    return questions[0], max(chars[k] for k in chars.keys()) - min(chars[k] for k in chars.keys())
 
 
 def convert_raw_data(raw_data):
