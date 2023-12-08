@@ -18,4 +18,6 @@
         "129"
     ],
     "editor.formatOnSave": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.activateEnvironment": true
 }
