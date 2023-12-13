@@ -1,5 +1,5 @@
 """
-https://adventofcode.com/2022/day/10
+https://adventofcode.com/2023/day/10
 
 
 """
@@ -52,35 +52,43 @@ class PipeMaze:
     def __init__(self, map_data: str) -> None:
         self.pipes: Dict[Tuple[int, int], Point] = {}
         self.starting_point: Point = Point(-1, -1, "S")
-        self.width = -1
+        self.width = None
+        self.height = 0
+
         for y, x_line in enumerate(map_data.splitlines()):
-            if self.width != -1 and len(x_line) != self.width:
-                raise ValueError(f"supisious x_line length ({len(x_line)} != {self.width}) in row {y}.")
-            self.width = len(x_line)
-            for x, c in enumerate(x_line):
-                if c != ".":
-                    self.pipes[(x, y)] = Point(x, y, c)
-                if c == "S":
-                    self.starting_point = Point(x, y, c)
-        self.heigth = y + 1
+            line_length = len(x_line)
+            if self.width is None:
+                self.width = line_length
+            elif self.width != line_length:
+                raise ValueError(f"Suspicious x_line length ({line_length} != {self.width}) in row {y}.")
+
+            for x, pipe_type in enumerate(x_line):
+                if pipe_type != ".":
+                    self.pipes[(x, y)] = Point(x, y, pipe_type)
+                    if pipe_type == "S":
+                        self.starting_point = Point(x, y, pipe_type)
+
+            self.height = y + 1
 
     def __rich__(self) -> str:
         pipe_type_map = {"F": "┌", "7": "┐", "J": "┘", "L": "└", "|": "│", "-": "─", "S": "[red]S[/red]"}
-        ret_val: str = ""
-        for y in range(self.heigth):
-            ret_val += f"{y:003d} "
+
+        rows = []
+        for y in range(self.height):
+            row = [f"{y:003d} "]
             for x in range(self.width):
                 point = self.get_point_at(x, y)
                 if not point:
-                    ret_val += "[blue]█[/blue]"
+                    row.append("[blue]█[/blue]")
                 else:
                     if point.distance > 0:
-                        ret_val += "[green]"
-                    ret_val += pipe_type_map.get(point.pipe_type, "X")
+                        row.append("[green]")
+                    row.append(pipe_type_map.get(point.pipe_type, "X"))
                     if point.distance > 0:
-                        ret_val += "[/green]"
-            ret_val += "\n"
-        return ret_val
+                        row.append("[/green]")
+            rows.append("".join(row))
+
+        return "\n".join(rows)
 
     def get_point_at(self, x: int, y: int) -> Optional[Point]:
         try:
@@ -131,14 +139,11 @@ class PipeMaze:
             neighbor_point = self.get_neighbor_point(point, direction)
             if neighbor_point and neighbor_point.pipe_type in valid_connectors[direction]:
                 connected_points.append(neighbor_point)
-        LOG.debug(f"PipeMaze::get_connected_points({point=}) {connected_points=}")
+        LOG.debug(f"Found {connected_points=}")
         return connected_points
 
     def calc_path_length(self) -> None:
-        # Startpunkt suchen
         self.get_next_connected_point(None, self.starting_point, 0)
-        # print(self.maze)
-        pass
 
     def get_next_connected_point(self, last_point: Optional[Point], point: Point, depth: int) -> None:
         stack = [(last_point, point, depth)]
@@ -150,14 +155,9 @@ class PipeMaze:
 
             for connected_point in self.get_connected_points(point):
                 if last_point and connected_point == last_point:
-                    LOG.debug(
-                        f"PipeMaze::get_next_connected_point({last_point}, {point}, {depth}) {connected_point} already visited"
-                    )
+                    LOG.debug(f"Skipping {connected_point}, already visited")
                 elif connected_point.pipe_type == "S":
-                    LOG.debug(
-                        f"PipeMaze::get_next_connected_point({last_point}, {point}, {depth}) Starting point {connected_point} "
-                        "arrived"
-                    )
+                    LOG.debug(f"Starting point {connected_point} arrived")
                 else:
-                    LOG.debug(f"PipeMaze::get_next_connected_point({last_point}, {point}, {depth}) {connected_point=}")
+                    LOG.debug(f"Updating {connected_point}")
                     stack.append((point, connected_point, depth))
