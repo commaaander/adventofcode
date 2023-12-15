@@ -1,8 +1,4 @@
-"""
-https://adventofcode.com/2023/day/X
-
-
-"""
+""" https://adventofcode.com/2023/day/X """
 
 from typing import Any, Dict, List, Tuple
 
