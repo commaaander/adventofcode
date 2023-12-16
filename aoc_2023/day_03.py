@@ -1,60 +1,62 @@
-"""
+""" https://adventofcode.com/2022/day/3 """
 
-https://adventofcode.com/2022/day/3
-
---- Day 3: Gear Ratios ---
-You and the Elf eventually reach a gondola lift station; he says the gondola lift will take you up to the water source, but this
-is as far as he can bring you. You go inside.
-
-It doesn't take long to find the gondolas, but there seems to be a problem: they're not moving.
-
-"Aaah!"
-
-You turn around to see a slightly-greasy Elf with a wrench and a look of surprise. "Sorry, I wasn't expecting anyone! The gondola
-lift isn't working right now; it'll still be a while before I can fix it." You offer to help.
-
-The engineer explains that an engine part seems to be missing from the engine, but nobody can figure out which one. If you can
-add up all the part numbers in the engine schematic, it should be easy to work out which part is missing.
-
-The engine schematic (your puzzle input) consists of a visual representation of the engine. There are lots of numbers and symbols
-you don't really understand, but apparently any number adjacent to a symbol, even diagonally, is a "part number" and should be
-included in your sum. (Periods (.) do not count as a symbol.)
-
-Here is an example engine schematic:
-
-467..114..
-...*......
-..35..633.
-......#...
-617*......
-.....+.58.
-..592.....
-......755.
-...$.*....
-.664.598..
-In this schematic, two numbers are not part numbers because they are not adjacent to a symbol: 114 (top right) and 58 (middle
-right). Every other number is adjacent to a symbol and so is a part number; their sum is 4361.
-
-Of course, the actual engine schematic is much larger. What is the sum of all of the part numbers in the engine schematic?
-
-"""
-
+import re
+from typing import Any, Dict, List, Tuple
 
 from adventofcode import LOG
+from rich import print
 
-questions = [
-    "",  # noqa: E501
+questions: List[str] = [
+    "What is the sum of all of the part numbers in the engine schematic?",
     "",  # noqa: E501
 ]
 
 
-def part_one(**kwargs):
+def part_one(**kwargs: Dict[str, Any]) -> Tuple[str, str]:
     LOG.debug(f"part_one({kwargs=})")
-    answer = 0
-    return questions[0], answer
+    part_numbers: List[int] = []
+    nonpart_numbers: List[int] = []
+
+    engine_schematic: List[str] = kwargs["raw_data"].splitlines()
+    for row_number, row in enumerate(engine_schematic):
+        match = re.findall(r"\d+", row)
+        row_part_numbers: List[int] = []
+        row_nonpart_numbers: List[int] = []
+
+        if match:
+            for number in match:
+                start, end = re.search(r"\b" + number + r"\b", row).span()
+                if is_symbol_adjacent(engine_schematic, row_number, start, end):
+                    row_part_numbers.append(int(number))
+                else:
+                    row_nonpart_numbers.append(int(number))
+        print(f"{row_number:03d}: [red][/red] {colorize_numbers(row, 'red', row_nonpart_numbers)}".replace(".", "."))
+        part_numbers.extend(row_part_numbers)
+        nonpart_numbers.extend(row_nonpart_numbers)
+    LOG.debug(f"{len(part_numbers)} parts. {sorted(part_numbers)=}, {sorted(nonpart_numbers)=}")
+    return questions[0], sum(part_numbers)
 
 
-def part_two(**kwargs):
+def part_two(**kwargs: Dict[str, Any]) -> Tuple[str, str]:
     LOG.debug(f"part_two({kwargs=})")
-    answer = 0
+    answer: int = 0
     return questions[1], answer
+
+
+def is_symbol_adjacent(engine_schematic: List[str], row: int, start: int, end: int) -> bool:
+    for row_number in [row - 1, row, row + 1]:
+        for column_number in range(start - 1, end + 1):
+            try:
+                char = engine_schematic[row_number][column_number]
+                if not (char.isdigit() or char == "."):
+                    return True
+            except IndexError:
+                pass
+    return False
+
+
+def colorize_numbers(s: str, color: str, numbers: List[int]) -> str:
+    for number in numbers:
+        s = re.sub(r"\b" + str(number) + r"\b", f"[{color}]{number}[/{color}]", s)
+
+    return s
