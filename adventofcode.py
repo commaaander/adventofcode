@@ -35,26 +35,26 @@ def main():
     LOG.debug(cmdl_args)
 
     if cmdl_args.list:
-        list_solutions()
+        list_parts()
         sys.exit(0)
 
     # load data
     raw_data = load_data(use_test_data=cmdl_args.test, year=cmdl_args.year, day=cmdl_args.day).read()
 
     try:
-        solution_module = f"aoc_{cmdl_args.year}.day_{cmdl_args.day:02d}"
+        part_module = f"aoc_{cmdl_args.year}.day_{cmdl_args.day:02d}"
 
-        solution = importlib.import_module(solution_module)
+        part = importlib.import_module(part_module)
     except ModuleNotFoundError as e:
         print(e)
         sys.exit(-1)
 
-    if cmdl_args.solution in ("1", "all"):
-        question, answer = solution.part_one(raw_data=raw_data)
+    if cmdl_args.part in ("1", "all"):
+        question, answer = part.part_one(raw_data=raw_data)
         print(f"[yellow]Solution part one:[/yellow]\n{question} {answer}")
 
-    if cmdl_args.solution in ("2", "all"):
-        question, answer = solution.part_two(raw_data=raw_data)
+    if cmdl_args.part in ("2", "all"):
+        question, answer = part.part_two(raw_data=raw_data)
         print(f"[yellow]Solution part two:[/yellow]\n{question} {answer}")
 
     return
@@ -64,27 +64,27 @@ def init_cmdl_parser() -> argparse.ArgumentParser:
     cmdl_parser = argparse.ArgumentParser()
     cmdl_parser.add_argument("-v", "--verbose", help="Set log level to 'Debug'", action="store_true")
     cmdl_parser.add_argument("-t", "--test", help="Use test data", action="store_true")
-    cmdl_parser.add_argument("-l", "--list", help="List available solutions", action="store_true")
+    cmdl_parser.add_argument("-l", "--list", help="List available parts", action="store_true")
     cmdl_parser.add_argument("-y", "--year", metavar="YEAR", help="Year", type=int, required=True)
     cmdl_parser.add_argument("-d", "--day", metavar="DAY", help="Day", type=int, required=True)
-    cmdl_parser.add_argument("-s", "--solution", metavar="SOLUTION", help="Solution", type=str, default="all")
+    cmdl_parser.add_argument("-p", "--part", metavar="PART", help="Part", type=str, default="all")
 
     return cmdl_parser
 
 
-def list_solutions():
-    solutions = Table(title="Advent Of Code Solutions")
-    solutions.add_column("Year")
-    solutions.add_column("Day")
+def list_parts():
+    parts = Table(title="Advent Of Code Solutions")
+    parts.add_column("Year")
+    parts.add_column("Day")
 
     for dir in os.listdir("."):
         if os.path.isdir(dir) and re.search(r"^aoc_\d{4}$", dir):
             for module in os.listdir(dir):
                 if re.search(r"^day_\d{2}.py$", module):
-                    solutions.add_row(dir, module)
+                    parts.add_row(dir, module)
 
     console = Console()
-    console.print(solutions)
+    console.print(parts)
 
 
 def load_data(use_test_data: bool, year: int, day: int) -> TextIOWrapper:
